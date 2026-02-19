@@ -1,14 +1,27 @@
+"use client";
+
 import OptionButton from "../ui/OptionButton";
 import { Options } from "@/app/types/review";
 import logo from "./../../../public/provus_logo.jpg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const optionsArray: Options[] = [
-  { heading: "All Reviews", navLink: "/reviews" },
-  { heading: "Post Review", navLink: "/post-review" },
+  { heading: "All Reviews", navLink: "/dashboard/reviews" },
+  { heading: "Post Review", navLink: "/dashboard/post-review" },
 ];
 
 export default function Header() {
+
+  const router = useRouter();
+
+  async function handleLogout(){
+  await fetch("/api/auth/logout",{method : "POST"});
+  router.push("/auth/login");
+  }
+
+
+
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-6">
@@ -38,7 +51,9 @@ export default function Header() {
 
             <div className="h-6 w-px bg-gray-200" />
 
-            <button className="bg-red-600 cursor-pointer text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition duration-200 shadow-sm">
+            <button 
+            onClick={handleLogout}
+            className="bg-red-600 cursor-pointer text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition duration-200 shadow-sm">
               Sign Out
             </button>
           </div>
